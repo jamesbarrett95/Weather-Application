@@ -1,0 +1,42 @@
+body  {
+  font-family: 'Raleway', sans-serif;
+  background: #d3d3d3;
+  font-size: 30px;
+}
+
+.container {
+  margin: 0 auto;
+  width: 50%;
+  text-align: center;
+}
+
+input {
+  margin-left: 8px;
+  background: none;
+  border-style: none;
+  border: none;
+  padding-bottom: 5px;
+  border-bottom: 2px dotted #000;
+  overflow: hidden;
+  color: yellow;
+}
+
+input:focus {
+  outline: none;
+}
+
+.border {
+  border: 2px solid #000;
+}
+
+button {
+  box-shadow: 5px 5px 5px #888888;
+  border-radius: 20px;
+  font-size: 1.1em;
+  padding: 1em;
+  margin-bottom: 40px;
+}
+
+button:focus {
+  outline: none;
+}
