@@ -30,18 +30,24 @@ $('button').click(function() {
     units : "metric",
   }
 
-  function toCelsius(arr) {
+  function toCelsius(arr, spans) {
     for(var i = 0; i < arr.length; i++) {
       arr[i] = Math.round((arr[i] - 32) * (5 / 9));
+    }
+    for(var i = 0; i < spans.length; i++) {
+      spans[i].innerHTML = arr[i];
     }
     $fahrenheitButton.attr("disabled", false);
     $celsiusButton.attr("disabled", true);
     return arr;
   }
 
-  function toFahrenheit(arr) {
+  function toFahrenheit(arr, spans) {
     for(var i = 0; i < arr.length; i++) {
       arr[i] = Math.round((arr[i] * (9 / 5)) + 32);
+    }
+    for(var i = 0; i < spans.length; i++) {
+      spans[i].innerHTML = arr[i];
     }
     $celsiusButton.attr("disabled", false);
     $fahrenheitButton.attr("disabled", true);
@@ -69,8 +75,10 @@ $('button').click(function() {
         var weather = data.list[i].weather[0].description;
         var windSpeed = "Wind Speed: " + data.list[i].wind.speed;
         temperatureArray.push(temp);
-        $("#result").append("<p>" + time + ' // ' + temp + ' // ' + weather + ' // ' + windSpeed + "</p>");
+        $("#result").append("<p>" + time + ' // ' + '<span class="temp">' + temp + '</span>' + ' // ' + weather + ' // ' + windSpeed + "</p>");
       }
+
+      var spans = document.getElementsByClassName("temp");
 
       $("#result").append($celsiusButton);
       $("#result").append($fahrenheitButton);
@@ -84,15 +92,11 @@ $('button').click(function() {
     $celsiusButton.attr("disabled", true);
 
     $($fahrenheitButton).click(function() {
-      var fahrenheitArray = toFahrenheit(temperatureArray);
-      console.log(fahrenheitArray);
-      console.log(temperatureArray);
+      var fahrenheitArray = toFahrenheit(temperatureArray, spans);
     });
 
     $($celsiusButton).click(function() {
-      var celsiusArray = toCelsius(temperatureArray);
-      console.log(celsiusArray);
-      console.log(temperatureArray);
+      var celsiusArray = toCelsius(temperatureArray, spans);
     });
   }
 
