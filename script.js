@@ -8,8 +8,16 @@ $('#searcharea').keyup(function(e){
 // Display Weather
 $('button').click(function() {
 
+  // Grabs all tempeature units
+  var spans = document.getElementsByClassName("temp");
   // Array to hold current temperature values
   var temperatureArray = [];
+  // Array to hold the URL for the background images
+  var backgroundImages = ["url('img/cold.jpg')",
+                          "url('img/freezing.jpg')",
+                          "url('img/hot.jpg')",
+                          "url('img/very-hot.jpg')"
+                        ];
 
   // Gather buttons and search area
   var $searchField = $('#searcharea');
@@ -35,11 +43,10 @@ $('button').click(function() {
       arr[i] = Math.round((arr[i] - 32) * (5 / 9));
     }
     for(var i = 0; i < spans.length; i++) {
-      spans[i].innerHTML = arr[i];
+      spans[i].innerHTML = arr[i] + "&#8451";
     }
     $fahrenheitButton.attr("disabled", false);
     $celsiusButton.attr("disabled", true);
-    return arr;
   }
 
   function toFahrenheit(arr, spans) {
@@ -47,11 +54,28 @@ $('button').click(function() {
       arr[i] = Math.round((arr[i] * (9 / 5)) + 32);
     }
     for(var i = 0; i < spans.length; i++) {
-      spans[i].innerHTML = arr[i];
+      spans[i].innerHTML = arr[i] + "&#8457";
     }
     $celsiusButton.attr("disabled", false);
     $fahrenheitButton.attr("disabled", true);
-    return arr;
+  }
+
+  function averageTemperature(temperatureArray, backgroundImages) {
+    var sum = 0;
+    var average;
+    for (var i = 0, j = temperatureArray.length; i < j; i++) {
+      sum += temperatureArray[i];
+    }
+     average = sum / temperatureArray.length;
+     if(average > 20 && average < 25) {
+       console.log("Hot");
+     } else if (average >= 25) {
+       console.log("Very Hot");
+     } else if(average > 7 && average <= 20) {
+       console.log("Cold");
+     } else {
+       console.log("Freezing");
+     }
   }
 
   // AJAX Callback
@@ -75,10 +99,10 @@ $('button').click(function() {
         var weather = data.list[i].weather[0].description;
         var windSpeed = "Wind Speed: " + data.list[i].wind.speed;
         temperatureArray.push(temp);
-        $("#result").append("<p>" + time + ' // ' + '<span class="temp">' + temp + '</span>' + ' // ' + weather + ' // ' + windSpeed + "</p>");
+        $("#result").append("<p>" + time + ' // ' + '<span class="temp">' + temp + '&#8451' + '</span>' + ' // ' + weather + ' // ' + windSpeed + "</p>");
       }
 
-      var spans = document.getElementsByClassName("temp");
+      averageTemperature(temperatureArray, backgroundImages);
 
       $("#result").append($celsiusButton);
       $("#result").append($fahrenheitButton);
@@ -92,11 +116,11 @@ $('button').click(function() {
     $celsiusButton.attr("disabled", true);
 
     $($fahrenheitButton).click(function() {
-      var fahrenheitArray = toFahrenheit(temperatureArray, spans);
+      toFahrenheit(temperatureArray, spans);
     });
 
     $($celsiusButton).click(function() {
-      var celsiusArray = toCelsius(temperatureArray, spans);
+      toCelsius(temperatureArray, spans);
     });
   }
 
