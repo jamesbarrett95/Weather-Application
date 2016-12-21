@@ -49,6 +49,30 @@ button:focus {
   outline: none;
 }
 
+.hot {
+  background-image: url("../img/hot.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.very-hot {
+  background-image: url("../img/very-hot.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.cold {
+  background-image: url("../img/cold.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.freezing {
+  background-image: url("../img/freezing.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 @media (min-width: 1250px) {
   .container {
     width: 65%;

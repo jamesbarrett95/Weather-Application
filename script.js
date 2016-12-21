@@ -12,12 +12,6 @@ $('button').click(function() {
   var spans = document.getElementsByClassName("temp");
   // Array to hold current temperature values
   var temperatureArray = [];
-  // Array to hold the URL for the background images
-  var backgroundImages = ["url('img/cold.jpg')",
-                          "url('img/freezing.jpg')",
-                          "url('img/hot.jpg')",
-                          "url('img/very-hot.jpg')"
-                        ];
 
   // Gather buttons and search area
   var $searchField = $('#searcharea');
@@ -60,7 +54,7 @@ $('button').click(function() {
     $fahrenheitButton.attr("disabled", true);
   }
 
-  function averageTemperature(temperatureArray, backgroundImages) {
+  function averageTemperature(temperatureArray) {
     var sum = 0;
     var average;
     for (var i = 0, j = temperatureArray.length; i < j; i++) {
@@ -68,13 +62,13 @@ $('button').click(function() {
     }
      average = sum / temperatureArray.length;
      if(average > 20 && average < 25) {
-       console.log("Hot");
+        $('body').addClass("hot");
      } else if (average >= 25) {
-       console.log("Very Hot");
+        $('body').addClass("very-hot");
      } else if(average > 7 && average <= 20) {
-       console.log("Cold");
+        $('body').addClass("cold");
      } else {
-       console.log("Freezing");
+        $('body').addClass("freezing");
      }
   }
 
@@ -102,7 +96,7 @@ $('button').click(function() {
         $("#result").append("<p>" + time + ' // ' + '<span class="temp">' + temp + '&#8451' + '</span>' + ' // ' + weather + ' // ' + windSpeed + "</p>");
       }
 
-      averageTemperature(temperatureArray, backgroundImages);
+      averageTemperature(temperatureArray);
 
       $("#result").append($celsiusButton);
       $("#result").append($fahrenheitButton);
