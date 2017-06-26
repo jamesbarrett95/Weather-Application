@@ -1,3 +1,27 @@
+// Speech Recognition Variables
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const microphoneButton = document.querySelector(".fa-microphone");
+const recognition = new SpeechRecognition();
+
+// Gather buttons and search area
+var $searchField = $('#searcharea');
+var $submitButton = $('#searchbutton');
+var $celsiusButton = $('<button>Celsius</button>');
+var $fahrenheitButton = $('<button>Fahrenheit</button>');
+
+recognition.addEventListener('result', e => {
+  const transcript = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('');
+  $searchField.val(transcript);
+  $('button').click();
+});
+
+function toggleMicrophone() {
+  recognition.start();
+}
+
 // If enter button is clicked, trigger a button click
 $('#searcharea').keyup(function(e){
   if(e.keyCode == 13) {
@@ -13,23 +37,17 @@ $('button').click(function() {
   // Array to hold current temperature values
   var temperatureArray = [];
 
-  // Gather buttons and search area
-  var $searchField = $('#searcharea');
-  var $submitButton = $('#searchbutton');
-  var $celsiusButton = $('<button>Celsius</button>');
-  var $fahrenheitButton = $('<button>Fahrenheit</button>');
-
   // Disable button whilst data is being fetched
   $searchField.prop("disabled", true);
   $submitButton.attr("disabled", true).html("Loading...");
 
   // AJAX URL and data params
-  var url = "http://api.openweathermap.org/data/2.5/forecast/weather/";
+  var url = "http://api.openweathermap.org/data/2.5/forecast/";
   var city = $searchField.val();
   var data = {
     q : city,
-    APPID : "d408a4f66848e2c8e5747679380bf726",
-    units : "metric",
+    appid : "e384678fabc57f4af277fff449ee339c",
+    units : "metric"
   }
 
   function toCelsius(arr, spans) {
@@ -74,14 +92,6 @@ $('button').click(function() {
 
   // AJAX Callback
   function callback(data) {
-    // If the API throws an error object, display a user friendly message
-    if(data.cod === "404") {
-      $("#result").empty().addClass("border");
-      $("#result").append("This area doesn't exist, please try again!");
-      $searchField.prop("disabled", false);
-      $submitButton.attr("disabled", false).html("Search");
-      // Otherwise, display the weather information
-    } else {
       // Add border around result area and display user's city
       $("#result").empty().addClass("border");
       $("#result").append("The weather for: " + data.city.name + "<br>");
@@ -104,7 +114,6 @@ $('button').click(function() {
       // Re-enable button after API call is finished
       $searchField.prop("disabled", false);
       $submitButton.attr("disabled", false).html("Search");
-    }
 
 
     $celsiusButton.attr("disabled", true);
@@ -116,8 +125,16 @@ $('button').click(function() {
     $($celsiusButton).click(function() {
       toCelsius(temperatureArray, spans);
     });
-  }
 
+  }
 // get JSON from API
-$.getJSON(url, data, callback);
+$.getJSON(url, data, callback)
+  .fail(function() {
+    $("#result").empty().addClass("border");
+    $("#result").append("This area doesn't exist, please try again!");
+    $searchField.prop("disabled", false);
+    $submitButton.attr("disabled", false).html("Search");
+  })
 });
+
+microphoneButton.addEventListener('click', toggleMicrophone);

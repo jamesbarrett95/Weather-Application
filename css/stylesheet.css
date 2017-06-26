@@ -8,6 +8,10 @@ p {
   margin-bottom: 30px;
 }
 
+.fa-microphone {
+  cursor: pointer;
+}
+
 .container {
   margin: 0 auto;
   width: 90%;
