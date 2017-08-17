@@ -18,9 +18,45 @@ p {
   text-align: center;
 }
 
+.container-fluid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-section {
+  display: none;
+}
+
 .resultarea {
   background: white;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
+
+.box {
+  height: 400px;
+  flex: 1 0 50%;
+}
+
+@media (min-width: 544px) {
+  .resultarea {
+    flex-direction: row;
+  }
+}
+
+@media (min-width: 980px) {
+  .box {
+    flex-basis: 25%;
+  }
+}
+
+.time { background: red; }
+.temperature { background: green; }
+.weather { background: pink; }
+.speed { background: blue}
 
 input {
   margin-left: 8px;
