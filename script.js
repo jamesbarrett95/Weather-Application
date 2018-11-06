@@ -44,7 +44,7 @@ async function getWeather () {
   const appid = 'e384678fabc57f4af277fff449ee339c'
   const units = 'metric'
   const city = searchArea.value
-  const response = await fetch(`http://api.openweathermap.org/data/2.5/forecast/?q=${city}&appid=${appid}&units=${units}`)
+  const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast/?q=${city}&appid=${appid}&units=${units}`)
   const data = await response.json()
   searchButton.disabled = false
   searchButton.textContent = 'Search'
